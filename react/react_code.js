@@ -22,7 +22,7 @@ class LikeButton extends React.Component {
 }
 
 const dummyElement = () => {
-    return e('h1', {} ,"hello tony");
+    return e('p', {} ,"experimental stuff rendered from react code, this is how react works behind the scenes");
 }
 
 const domContainer = document.querySelector('#root');
