@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="styles.css" />
+    <title>Santhosh's Blog</title>
+    <!-- Add this script in the head to prevent flash of wrong theme -->
+    <script>
+      // Immediately set the theme before the page loads
+      const savedTheme = localStorage.getItem("theme");
+      const prefersDark = window.matchMedia(
+        "(prefers-color-scheme: dark)"
+      ).matches;
+      const theme = savedTheme || (prefersDark ? "dark" : "light");
+      document.documentElement.setAttribute("data-theme", theme);
+    </script>
+  </head>
+  <body>
+    <nav class="nav">
+      <div class="nav-container">
+        <a href="index.html" class="logo">Santhosh reddy Barla</a>
+        <button class="hamburger" aria-label="Toggle menu">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+        <ul class="nav-menu">
+          <li><a href="index.html#home">Home</a></li>
+          <li><a href="index.html#projects">Projects</a></li>
+          <li><a href="blog.html">Blog</a></li>
+          <li><a href="index.html#aboutme">About Me</a></li>
+          <li><a href="docs/santhosh_resume.pdf">Download Resume</a></li>
+        </ul>
+      </div>
+    </nav>
+
+    <!-- Add theme toggle button -->
+    <button class="theme-toggle" aria-label="Toggle theme">
+      <svg
+        class="sun-icon"
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor">
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+      </svg>
+      <svg
+        class="moon-icon"
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor">
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+      </svg>
+    </button>
+
+    <main style="padding-top: 80px">
+      <div class="blog-container">
+        <h1>Blog Posts</h1>
+        <div class="blog-grid">
+          <article class="blog-post">
+            <h2>My Journey from Mechanical to Software Engineering</h2>
+            <time>January 15, 2024</time>
+            <p>
+              A brief overview of my transition from mechanical engineering to
+              software development...
+            </p>
+            <a href="#" class="read-more">Read More</a>
+          </article>
+          <!-- Add more blog posts here -->
+        </div>
+      </div>
+    </main>
+
+    <footer>
+      <!-- ... existing footer code ... -->
+    </footer>
+
+    <!-- Add scripts at the end of body -->
+
+    <script src="script.js"></script>
+  </body>
+</html>

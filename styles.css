@@ -1,0 +1,797 @@
+/* CSS Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Variables */
+:root {
+  /* Light theme (default) */
+  --background-color: #ffffff;
+  --text-color: #2d3748;
+  --primary-color: #4299e1;
+  --primary-color-dark: #3182ce;
+  --card-bg: #ffffff;
+  --nav-bg: rgba(255, 255, 255, 0.9);
+  --border-color: rgba(0, 0, 0, 0.1);
+  --secondary-text: #4a5568;
+  --card-hover-shadow: rgba(0, 0, 0, 0.1);
+
+  /* Typography */
+  --font-main: system-ui, -apple-system, sans-serif;
+
+  /* Spacing */
+  --spacing-sm: 0.5rem;
+  --spacing-md: 1rem;
+  --spacing-lg: 2rem;
+
+  /* Container width */
+  --container-width: 1200px;
+}
+
+/* Dark theme - updated with better contrast colors */
+[data-theme="dark"] {
+  --background-color: #1a202c;
+  --text-color: #f7fafc;
+  --primary-color: #63b3ed;
+  --primary-color-dark: #4299e1;
+  --card-bg: #2d3748;
+  --nav-bg: rgba(45, 55, 72, 0.9);
+  --border-color: rgba(255, 255, 255, 0.1);
+  --secondary-text: #cbd5e0;
+  --card-hover-shadow: rgba(0, 0, 0, 0.3);
+  --project-text: #e2e8f0; /* Lighter text color for better readability */
+  --project-description: #cbd5e0; /* Brighter description text */
+  --stats-text: #e2e8f0; /* Brighter text for stats */
+}
+
+/* Update specific dark theme overrides */
+[data-theme="dark"] .calendar .contrib-cell[data-level="0"] {
+  background-color: #2d3748;
+}
+
+[data-theme="dark"] .project-description {
+  color: var(--project-description);
+}
+
+[data-theme="dark"] .blog-post time {
+  color: #a0aec0;
+}
+
+[data-theme="dark"] .social-links a {
+  color: #a0aec0;
+}
+
+[data-theme="dark"] .skill-tag {
+  background-color: rgba(99, 179, 237, 0.1);
+  color: #63b3ed;
+}
+
+[data-theme="dark"] .skill-tag:hover {
+  background-color: #4299e1;
+  color: #f7fafc;
+}
+
+/* Update project card colors for dark mode */
+[data-theme="dark"] .project-card {
+  background: #2d3748;
+  border-color: rgba(255, 255, 255, 0.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+[data-theme="dark"] .project-header svg {
+  color: #a0aec0;
+}
+
+[data-theme="dark"] .project-stats,
+[data-theme="dark"] .project-language {
+  color: var(--stats-text);
+}
+
+/* Update blog post colors for dark mode */
+[data-theme="dark"] .blog-post {
+  background: #2d3748;
+  border-color: rgba(255, 255, 255, 0.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Update GitHub calendar colors for dark mode */
+[data-theme="dark"] .calendar .contrib-cell[data-level="1"] {
+  background-color: #68d391; /* Lighter green */
+}
+
+[data-theme="dark"] .calendar .contrib-cell[data-level="2"] {
+  background-color: #48bb78; /* Medium green */
+}
+
+[data-theme="dark"] .calendar .contrib-cell[data-level="3"] {
+  background-color: #38a169; /* Darker green */
+}
+
+[data-theme="dark"] .calendar .contrib-cell[data-level="4"] {
+  background-color: #2f855a; /* Darkest green */
+}
+
+/* Update stats card for dark mode */
+[data-theme="dark"] .stats-card {
+  background: #2d3748;
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Update about section for dark mode */
+[data-theme="dark"] .about-content {
+  background: #2d3748;
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Theme toggle button */
+.theme-toggle {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 50%;
+  width: 3rem;
+  height: 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  transition: all 0.3s ease;
+}
+
+.theme-toggle:hover {
+  transform: scale(1.1);
+}
+
+.theme-toggle svg {
+  width: 1.5rem;
+  height: 1.5rem;
+  color: var(--text-color);
+}
+
+/* Layout */
+body {
+  font-family: var(--font-main);
+  line-height: 1.6;
+  color: var(--text-color);
+  background-color: var(--background-color);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Navigation */
+.nav {
+  position: fixed;
+  top: 1rem;
+  left: 0;
+  right: 0;
+  width: calc(100% - 2rem);
+  max-width: var(--container-width);
+  margin: 0 auto; /* Center the navbar */
+  background-color: var(--nav-bg);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  padding: 1rem;
+  border-radius: 12px;
+  transition: transform 0.2s ease-out;
+  will-change: transform;
+}
+
+.nav.hide {
+  transform: translateY(-150%); /* Only hide vertically */
+}
+
+/* Show navbar on hover at the top of the page */
+body:before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 20px;
+  z-index: 999;
+}
+
+body:hover:before {
+  height: 0;
+}
+
+/* Show navbar when hovering at the top */
+nav:hover,
+body:hover nav {
+  transform: translateY(0);
+}
+
+.nav-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 2rem; /* Add space between logo and menu */
+}
+
+.logo {
+  text-decoration: none;
+  color: var(--text-color);
+  font-weight: bold;
+  z-index: 1001; /* Keep logo above mobile menu */
+  white-space: nowrap; /* Prevent logo from wrapping */
+}
+
+.nav-menu {
+  display: flex;
+  gap: 1rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+nav a {
+  text-decoration: none;
+  color: var(--text-color);
+  padding: var(--spacing-sm);
+  transition: color 0.3s ease;
+}
+
+nav a:hover {
+  color: var(--primary-color);
+}
+
+/* Hamburger button */
+.hamburger {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: var(--spacing-sm);
+  z-index: 1001; /* Keep hamburger above mobile menu */
+}
+
+.hamburger span {
+  display: block;
+  width: 25px;
+  height: 3px;
+  background-color: var(--text-color);
+  margin: 5px 0;
+  transition: all 0.3s ease;
+}
+
+/* Mobile styles */
+@media (max-width: 768px) {
+  .hamburger {
+    display: block;
+  }
+
+  .nav {
+    top: 0.5rem;
+    width: calc(100% - 1rem);
+    padding: 0.75rem;
+  }
+
+  .nav-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background-color: var(--background-color);
+    padding: 1rem;
+    border-radius: 0 0 12px 12px;
+  }
+
+  .nav-menu.active {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .nav-menu li {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+  }
+
+  .nav-menu.active li {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Stagger the animation for each list item */
+  .nav-menu li:nth-child(1) {
+    transition-delay: 0.1s;
+  }
+  .nav-menu li:nth-child(2) {
+    transition-delay: 0.2s;
+  }
+  .nav-menu li:nth-child(3) {
+    transition-delay: 0.3s;
+  }
+  .nav-menu li:nth-child(4) {
+    transition-delay: 0.4s;
+  }
+  .nav-menu li:nth-child(5) {
+    transition-delay: 0.5s;
+  }
+
+  .nav-menu a {
+    font-size: 1.5rem;
+    padding: var(--spacing-md);
+  }
+
+  /* Hamburger animation when active */
+  .hamburger.active span:nth-child(1) {
+    transform: rotate(45deg) translate(5px, 5px);
+  }
+
+  .hamburger.active span:nth-child(2) {
+    opacity: 0;
+  }
+
+  .hamburger.active span:nth-child(3) {
+    transform: rotate(-45deg) translate(7px, -7px);
+  }
+}
+
+/* Sections */
+#home,
+#projects,
+#blog,
+#aboutme {
+  /* Common section styles */
+  max-width: var(--container-width);
+  margin: 0 auto;
+  padding: var(--spacing-lg);
+}
+
+/* Blog Styles */
+.blog-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  margin: 2rem 0;
+}
+
+.blog-post {
+  background: var(--card-bg);
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border: 1px solid var(--border-color);
+  transition: transform 0.2s ease;
+}
+
+.blog-post:hover {
+  transform: translateY(-5px);
+}
+
+.blog-post h2 {
+  margin: 0 0 1rem 0;
+  font-size: 1.4rem;
+}
+
+.blog-post time {
+  color: #666;
+  font-size: 0.9rem;
+  display: block;
+  margin-bottom: 1rem;
+}
+
+.blog-post p {
+  margin-bottom: 1.5rem;
+  line-height: 1.6;
+}
+
+.read-more {
+  color: var(--primary-color);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.read-more:hover {
+  text-decoration: underline;
+}
+
+.view-all {
+  text-align: center;
+  margin: 2rem 0;
+}
+
+.view-all-link {
+  display: inline-block;
+  padding: 0.8rem 1.5rem;
+  background-color: var(--primary-color);
+  color: white;
+  text-decoration: none;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+  font-weight: 500;
+}
+
+.view-all-link:hover {
+  background-color: #0056b3; /* Specific darker blue color */
+  transform: translateY(-2px); /* Slight lift effect */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add shadow on hover */
+}
+
+/* Blog page specific styles */
+.blog-container {
+  max-width: var(--container-width);
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+@media (max-width: 768px) {
+  .blog-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* GitHub Stats Section */
+.github-stats {
+  margin-top: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+/* GitHub Calendar Customization */
+.calendar {
+  width: 100%;
+  max-width: 100%;
+  background: var(--background-color);
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  margin-bottom: 2rem;
+}
+
+/* Calendar squares */
+.calendar .contrib-column {
+  padding: 15px 10px;
+  text-align: center;
+  border-left: 1px solid #eee;
+  font-size: 0.8em;
+}
+
+/* Calendar header */
+.calendar .contrib-footer {
+  font-size: 0.9em;
+  padding: 0 10px 12px;
+  text-align: left;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Contribution squares */
+.calendar .contrib-number {
+  font-weight: 600;
+  color: var(--text-color);
+  line-height: 1.3em;
+}
+
+/* Calendar days */
+.calendar .contrib-cell {
+  border-radius: 6px !important;
+  transition: transform 0.2s ease;
+}
+
+/* Hover effect on contribution squares */
+.calendar .contrib-cell:hover {
+  transform: scale(1.1);
+  cursor: pointer;
+}
+
+/* Custom contribution colors */
+.calendar .contrib-cell[data-level="0"] {
+  background-color: #ebedf0;
+  border-radius: 6px;
+}
+.calendar .contrib-cell[data-level="1"] {
+  background-color: #9be9a8;
+  border-radius: 6px;
+}
+.calendar .contrib-cell[data-level="2"] {
+  background-color: #40c463;
+  border-radius: 6px;
+}
+.calendar .contrib-cell[data-level="3"] {
+  background-color: #30a14e;
+  border-radius: 6px;
+}
+.calendar .contrib-cell[data-level="4"] {
+  background-color: #216e39;
+  border-radius: 6px;
+}
+
+/* Legend */
+.calendar .contrib-legend {
+  text-align: center;
+  padding: 5px 0;
+  font-size: 0.8em;
+  margin-top: 1rem;
+}
+
+/* Stats Cards Container */
+.stats-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1rem;
+  width: 100%;
+}
+
+.stats-card {
+  width: 100%;
+  aspect-ratio: 1.8; /* Slightly increased for better content fit */
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border: 1px solid var(--border-color);
+  transition: transform 0.2s ease;
+  object-fit: contain; /* Changed from cover to contain */
+  padding: 0.5rem; /* Added padding */
+}
+
+.stats-card:hover {
+  transform: translateY(-5px);
+}
+
+/* Adjust card size for mobile */
+@media (max-width: 768px) {
+  .stats-cards {
+    grid-template-columns: 1fr;
+  }
+
+  .stats-card {
+    aspect-ratio: 1.9; /* Slightly adjusted for mobile */
+  }
+
+  .calendar {
+    padding: 1rem;
+  }
+
+  .calendar .contrib-column {
+    padding: 10px 5px;
+    font-size: 0.7em;
+  }
+
+  .calendar .contrib-footer {
+    font-size: 0.8em;
+  }
+}
+
+/* Projects Section */
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+  padding: 1rem 0;
+}
+
+.project-card {
+  background: var(--card-bg);
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border: 1px solid var(--border-color);
+  transition: transform 0.2s ease;
+}
+
+.project-card:hover {
+  transform: translateY(-5px);
+}
+
+.project-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.project-header svg {
+  width: 20px;
+  height: 20px;
+  color: #586069;
+}
+
+.project-title {
+  margin: 0;
+  font-size: 1.2rem;
+  color: var(--project-text);
+}
+
+.project-description {
+  color: var(--project-description);
+  font-size: 0.9rem;
+  margin-bottom: 1rem;
+}
+
+.project-footer {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  font-size: 0.8rem;
+}
+
+.project-language {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.language-color {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+}
+
+.project-stats {
+  display: flex;
+  gap: 1rem;
+}
+
+/* About Me Section */
+.about-container {
+  width: 100%;
+  margin: 2rem 0;
+}
+
+.about-content {
+  background: var(--card-bg);
+  border-radius: 12px;
+  padding: 2.5rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border: 1px solid var(--border-color);
+}
+
+.about-text {
+  font-size: 1.1rem;
+  line-height: 1.8;
+  color: var(--text-color);
+}
+
+.about-text p {
+  margin-bottom: 2.5rem;
+}
+
+/* Skills Section */
+.skills-section {
+  margin-top: 2.5rem;
+}
+
+.skills-section h2 {
+  margin-bottom: 2rem;
+  font-size: 1.8rem;
+}
+
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2.5rem;
+}
+
+.skill-category h3 {
+  font-size: 1.3rem;
+  margin-bottom: 1.2rem;
+  color: var(--text-color);
+}
+
+.skill-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.skill-tag {
+  background-color: rgba(0, 123, 255, 0.1);
+  color: var(--primary-color);
+  padding: 0.7rem 1.2rem;
+  border-radius: 20px;
+  font-size: 1rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.skill-tag:hover {
+  background-color: var(--primary-color);
+  color: white;
+  transform: translateY(-2px);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .about-content {
+    padding: 2rem;
+  }
+
+  .skills-grid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .about-text {
+    font-size: 1rem;
+  }
+
+  .skills-section h2 {
+    font-size: 1.5rem;
+  }
+}
+
+/* Footer Styles */
+footer {
+  margin-top: 4rem;
+  padding: 2rem 0;
+  background-color: var(--background-color);
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.footer-content {
+  max-width: var(--container-width);
+  margin: 0 auto;
+  padding: 0 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.footer-content p {
+  color: var(--text-color);
+  font-size: 1rem;
+}
+
+.footer-content a {
+  color: var(--primary-color);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.footer-content a:hover {
+  color: var(--primary-color-dark);
+}
+
+.social-links {
+  display: flex;
+  gap: 1.5rem;
+  align-items: center;
+}
+
+.social-links a {
+  color: #666;
+  transition: all 0.2s ease;
+}
+
+.social-links a:hover {
+  color: var(--primary-color);
+  transform: translateY(-2px);
+}
+
+/* Responsive footer */
+@media (max-width: 768px) {
+  .footer-content {
+    flex-direction: column;
+    text-align: center;
+    padding: 1rem;
+  }
+
+  .social-links {
+    margin-top: 1rem;
+  }
+}
+
+/* GitHub Stats Section Dark Mode */
+[data-theme="dark"] .github-stats img {
+  filter: brightness(1.1) contrast(1.1); /* Make stats cards slightly brighter */
+}
+
+/* Update calendar text colors */
+[data-theme="dark"] .calendar .contrib-number {
+  color: var(--stats-text);
+}
+
+[data-theme="dark"] .calendar text {
+  fill: var(--stats-text) !important; /* Force calendar text color */
+}
