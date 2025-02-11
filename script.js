@@ -3,14 +3,13 @@ document.addEventListener("DOMContentLoaded", () => {
   const hamburger = document.querySelector(".hamburger");
   const navMenu = document.querySelector(".nav-menu");
   let lastScroll = 0;
-  const scrollThreshold = 50; // Reduced threshold for quicker response
+  const scrollThreshold = 50;
 
   hamburger?.addEventListener("click", () => {
     hamburger.classList.toggle("active");
     navMenu.classList.toggle("active");
   });
 
-  // Close menu when clicking a link
   document.querySelectorAll(".nav-menu a").forEach((link) => {
     link.addEventListener("click", () => {
       hamburger.classList.remove("active");
@@ -18,102 +17,55 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  // Use requestAnimationFrame for smooth scroll handling
-  let ticking = false;
-
   window.addEventListener("scroll", () => {
-    if (!ticking) {
-      window.requestAnimationFrame(() => {
-        const currentScroll = window.pageYOffset;
-
-        // Make the hide/show logic more responsive
-        if (currentScroll > lastScroll && currentScroll > scrollThreshold) {
-          // Scrolling down
-          nav.classList.add("hide");
-        } else if (
-          currentScroll < lastScroll ||
-          currentScroll < scrollThreshold
-        ) {
-          // Scrolling up or near top
-          nav.classList.remove("hide");
-        }
-
-        lastScroll = currentScroll;
-        ticking = false;
-      });
-
-      ticking = true;
+    const currentScroll = window.pageYOffset;
+    if (currentScroll > lastScroll && currentScroll > scrollThreshold) {
+      nav.classList.add("hide");
+    } else if (currentScroll < lastScroll || currentScroll < scrollThreshold) {
+      nav.classList.remove("hide");
     }
+    lastScroll = currentScroll;
   });
 
-  // Debug - verify nav element was found
-  console.log("Nav element:", nav);
-
-  // Theme toggle functionality
-  function initializeTheme() {
-    const themeToggle = document.querySelector(".theme-toggle");
-    const prefersDarkScheme = window.matchMedia("(prefers-color-scheme: dark)");
-
-    // Check for saved theme preference or use system preference
-    const savedTheme = localStorage.getItem("theme");
-    const currentTheme =
-      savedTheme || (prefersDarkScheme.matches ? "dark" : "light");
-
-    // Set initial theme
-    document.documentElement.setAttribute("data-theme", currentTheme);
-    updateThemeIcons(currentTheme);
-
-    // Toggle theme on button click
-    themeToggle?.addEventListener("click", () => {
-      const newTheme =
-        document.documentElement.getAttribute("data-theme") === "dark"
-          ? "light"
-          : "dark";
-      document.documentElement.setAttribute("data-theme", newTheme);
-      localStorage.setItem("theme", newTheme);
-      updateThemeIcons(newTheme); // Update icons on all theme toggles
-    });
-
-    // Listen for system theme changes
-    prefersDarkScheme.addEventListener("change", (e) => {
-      if (!localStorage.getItem("theme")) {
-        const newTheme = e.matches ? "dark" : "light";
-        document.documentElement.setAttribute("data-theme", newTheme);
-        updateThemeIcons(newTheme);
-      }
-    });
-  }
-
-  // Update all theme icons on the page
-  function updateThemeIcons(theme) {
-    const themeToggles = document.querySelectorAll(".theme-toggle");
-    themeToggles.forEach((toggle) => {
-      const sunIcon = toggle.querySelector(".sun-icon");
-      const moonIcon = toggle.querySelector(".moon-icon");
-
-      if (theme === "dark") {
-        sunIcon.style.display = "block";
-        moonIcon.style.display = "none";
-      } else {
-        sunIcon.style.display = "none";
-        moonIcon.style.display = "block";
-      }
-    });
-  }
-
-  // Initialize theme when DOM is loaded
   initializeTheme();
 });
 
+function initializeTheme() {
+  const themeToggle = document.querySelector(".theme-toggle");
+  const prefersDarkScheme = window.matchMedia("(prefers-color-scheme: dark)");
+  const savedTheme = localStorage.getItem("theme");
+  const currentTheme =
+    savedTheme || (prefersDarkScheme.matches ? "dark" : "light");
+
+  document.documentElement.setAttribute("data-theme", currentTheme);
+  updateThemeIcons(currentTheme);
+
+  themeToggle?.addEventListener("click", () => {
+    const newTheme =
+      document.documentElement.getAttribute("data-theme") === "dark"
+        ? "light"
+        : "dark";
+    document.documentElement.setAttribute("data-theme", newTheme);
+    localStorage.setItem("theme", newTheme);
+    updateThemeIcons(newTheme);
+  });
+}
+
+function updateThemeIcons(theme) {
+  document.querySelectorAll(".theme-toggle").forEach((toggle) => {
+    const sunIcon = toggle.querySelector(".sun-icon");
+    const moonIcon = toggle.querySelector(".moon-icon");
+    sunIcon.style.display = theme === "dark" ? "block" : "none";
+    moonIcon.style.display = theme === "dark" ? "none" : "block";
+  });
+}
+
 async function fetchRecentRepos() {
   try {
-    // Fetch repos and sort by last updated
     const response = await fetch(
       "https://api.github.com/users/santhosh-reddy03/repos?sort=updated&direction=desc"
     );
-    const repos = await response.json();
-    // Return only the 3 most recently updated repos
-    return repos.slice(0, 3);
+    return (await response.json()).slice(0, 3);
   } catch (error) {
     console.error("Error fetching repos:", error);
     return [];
@@ -121,12 +73,7 @@ async function fetchRecentRepos() {
 }
 
 function createProjectCard(repo) {
-  // Format the date
-  const updatedAt = new Date(repo.updated_at).toLocaleDateString("en-US", {
-    year: "numeric",
-    month: "short",
-    day: "numeric",
-  });
+  const updatedAt = new Date(repo.updated_at).toLocaleDateString();
 
   return `
     <a href="${

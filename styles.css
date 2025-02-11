@@ -419,14 +419,8 @@ nav a:hover {
 /* Blog page specific styles */
 .blog-container {
   max-width: 1200px;
-  margin: 6rem auto 2rem; /* Increased top margin to account for fixed navbar */
+  margin: 6rem auto 2rem;
   padding: 2rem 1rem;
-}
-
-.blog-posts-grid {
-  display: grid;
-  gap: 2rem;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
 }
 
 .blog-post-preview {
