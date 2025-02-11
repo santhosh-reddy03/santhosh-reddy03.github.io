@@ -56,7 +56,7 @@
         <ul class="nav-menu">
           <li><a href="#home">Home</a></li>
           <li><a href="#projects">Projects</a></li>
-          <li><a href="#blog">Blog</a></li>
+          <li><a href="blog.html">Blog</a></li>
           <li><a href="#aboutme">About Me</a></li>
           <li><a href="docs/santhosh_resume.pdf">Download Resume</a></li>
         </ul>
@@ -102,33 +102,15 @@
         </div>
       </div>
 
-      <div id="blog">
-        <h1>Recent Blog Posts</h1>
-        <div class="blog-grid">
-          <article class="blog-post">
-            <h2>Understanding Django Storages</h2>
-            <time>February 1, 2024</time>
-            <p>
-              Exploring the internals of Django Storages and my contributions to
-              the project...
-            </p>
-            <a href="#" class="read-more">Read More</a>
-          </article>
-
-          <article class="blog-post">
-            <h2>My Journey from Mechanical to Software Engineering</h2>
-            <time>January 15, 2024</time>
-            <p>
-              A brief overview of my transition from mechanical engineering to
-              software development...
-            </p>
-            <a href="#" class="read-more">Read More</a>
-          </article>
+      <section id="blog" class="section">
+        <h2 class="section-title">Recent Blog Posts</h2>
+        <div class="blog-grid" id="blog-posts-container">
+          <!-- Blog previews will be loaded here -->
         </div>
         <div class="view-all">
           <a href="blog.html" class="view-all-link">View All Posts →</a>
         </div>
-      </div>
+      </section>
 
       <div id="aboutme">
         <h1>About Me</h1>
@@ -224,5 +206,56 @@
       });
     </script>
     <script src="script.js"></script>
+    <script>
+      async function loadBlogPreviews() {
+        const blogContainer = document.getElementById("blog-posts-container");
+        if (!blogContainer) return; // Exit if we're not on the home page
+
+        try {
+          // Load blog metadata
+          const response = await fetch("/blog/metadata/posts.json");
+          const data = await response.json();
+
+          // Get the 3 most recent posts
+          const recentPosts = data.posts
+            .sort((a, b) => new Date(b.date) - new Date(a.date))
+            .slice(0, 3);
+
+          // Create HTML for recent posts
+          const postsHTML = recentPosts
+            .map(
+              (post) => `
+            <article class="blog-post-preview">
+              <a href="blog.html?post=${post.id}" class="blog-post-link">
+                <h2>${post.title}</h2>
+                <time datetime="${post.date}">${new Date(
+                post.date
+              ).toLocaleDateString("en-US", {
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+              })}</time>
+                <p>${post.summary}</p>
+                <div class="tags">
+                  ${post.tags
+                    .map((tag) => `<span class="tag">${tag}</span>`)
+                    .join("")}
+                </div>
+              </a>
+            </article>
+          `
+            )
+            .join("");
+
+          blogContainer.innerHTML = postsHTML;
+        } catch (error) {
+          console.error("Error loading blog previews:", error);
+          blogContainer.innerHTML = "<p>Error loading blog previews.</p>";
+        }
+      }
+
+      // Load blog previews when the page loads
+      document.addEventListener("DOMContentLoaded", loadBlogPreviews);
+    </script>
   </body>
 </html>

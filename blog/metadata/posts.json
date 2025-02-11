@@ -1,0 +1,18 @@
+{
+  "posts": [
+    {
+      "id": "django-storages",
+      "title": "Understanding Django Storages",
+      "date": "2024-02-01",
+      "summary": "Exploring the internals of Django Storages and my contributions to the project...",
+      "tags": ["django", "python", "aws"]
+    },
+    {
+      "id": "career-transition",
+      "title": "My Journey from Mechanical to Software Engineering",
+      "date": "2024-01-15",
+      "summary": "A brief overview of my transition from mechanical engineering to software development...",
+      "tags": ["career", "personal"]
+    }
+  ]
+}

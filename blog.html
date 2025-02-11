@@ -1,19 +1,63 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Blog - Santhosh's Portfolio</title>
     <link rel="stylesheet" href="styles.css" />
-    <title>Santhosh's Blog</title>
-    <!-- Add this script in the head to prevent flash of wrong theme -->
+
+    <!-- Syntax highlighting -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/themes/prism.min.css" />
+
+    <!-- Required dependencies for MDX -->
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+    <script src="https://unpkg.com/marked@4.0.0/marked.min.js"></script>
+    <script src="https://unpkg.com/react@17/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@17/umd/react-dom.production.min.js"></script>
+
+    <!-- Theme initialization and toggle functionality -->
     <script>
-      // Immediately set the theme before the page loads
+      // Initialize theme
       const savedTheme = localStorage.getItem("theme");
       const prefersDark = window.matchMedia(
         "(prefers-color-scheme: dark)"
       ).matches;
       const theme = savedTheme || (prefersDark ? "dark" : "light");
       document.documentElement.setAttribute("data-theme", theme);
+
+      // Add theme toggle functionality when DOM is loaded
+      document.addEventListener("DOMContentLoaded", () => {
+        const themeToggle = document.querySelector(".theme-toggle");
+
+        // Set initial icon state
+        updateThemeIcon(theme);
+
+        themeToggle.addEventListener("click", () => {
+          const currentTheme =
+            document.documentElement.getAttribute("data-theme");
+          const newTheme = currentTheme === "dark" ? "light" : "dark";
+
+          document.documentElement.setAttribute("data-theme", newTheme);
+          localStorage.setItem("theme", newTheme);
+          updateThemeIcon(newTheme);
+        });
+      });
+
+      // Function to update theme icon visibility
+      function updateThemeIcon(theme) {
+        const sunIcon = document.querySelector(".sun-icon");
+        const moonIcon = document.querySelector(".moon-icon");
+
+        if (theme === "dark") {
+          sunIcon.style.display = "block";
+          moonIcon.style.display = "none";
+        } else {
+          sunIcon.style.display = "none";
+          moonIcon.style.display = "block";
+        }
+      }
     </script>
   </head>
   <body>
@@ -35,7 +79,7 @@
       </div>
     </nav>
 
-    <!-- Add theme toggle button -->
+    <!-- Theme toggle button -->
     <button class="theme-toggle" aria-label="Toggle theme">
       <svg
         class="sun-icon"
@@ -63,21 +107,9 @@
       </svg>
     </button>
 
-    <main style="padding-top: 80px">
-      <div class="blog-container">
-        <h1>Blog Posts</h1>
-        <div class="blog-grid">
-          <article class="blog-post">
-            <h2>My Journey from Mechanical to Software Engineering</h2>
-            <time>January 15, 2024</time>
-            <p>
-              A brief overview of my transition from mechanical engineering to
-              software development...
-            </p>
-            <a href="#" class="read-more">Read More</a>
-          </article>
-          <!-- Add more blog posts here -->
-        </div>
+    <main class="blog-container">
+      <div id="blog-content">
+        <!-- Blog content will be dynamically inserted here -->
       </div>
     </main>
 
@@ -85,8 +117,9 @@
       <!-- ... existing footer code ... -->
     </footer>
 
-    <!-- Add scripts at the end of body -->
-
-    <script src="script.js"></script>
+    <!-- Load scripts in correct order -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/prism.min.js"></script>
+    <script src="js/mdx-parser.js"></script>
+    <script src="js/blog.js"></script>
   </body>
 </html>
