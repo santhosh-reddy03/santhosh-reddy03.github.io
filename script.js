@@ -142,3 +142,68 @@ async function displayRecentRepos() {
 document.addEventListener("DOMContentLoaded", () => {
   displayRecentRepos();
 });
+
+// Function to load blog previews from Firebase
+async function loadBlogPreviews() {
+  const blogContainer = document.getElementById("blog-posts-container");
+  if (!blogContainer) return; // Exit if we're not on the home page
+
+  try {
+    const db = window.firebaseDb;
+    const { collection, query, orderBy, limit, getDocs } =
+      window.firebaseModules;
+
+    // Get blog posts from Firebase, ordered by date
+    const blogCollection = collection(db, "blogs");
+    const blogQuery = query(blogCollection, orderBy("date", "desc"), limit(3));
+
+    const snapshot = await getDocs(blogQuery);
+
+    if (snapshot.empty) {
+      blogContainer.innerHTML = "<p>No blog posts found.</p>";
+      return;
+    }
+
+    // Create HTML for posts
+    const postsHTML = snapshot.docs
+      .map((doc) => {
+        const post = doc.data();
+        const postDate = new Date(
+          post.date.toMillis ? post.date.toMillis() : post.date
+        );
+
+        return `
+        <article class="blog-post-preview">
+          <a href="blog.html?post=${doc.id}" class="blog-post-link">
+            <h2>${post.title}</h2>
+            <time datetime="${postDate.toISOString()}">${postDate.toLocaleDateString(
+          "en-US",
+          {
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+          }
+        )}</time>
+            <p>${post.summary}</p>
+            <div class="tags">
+              ${post.tags
+                .map((tag) => `<span class="tag">${tag}</span>`)
+                .join("")}
+            </div>
+          </a>
+          <a href="blog.html?post=${doc.id}" class="read-more-btn">Read More</a>
+        </article>
+      `;
+      })
+      .join("");
+
+    blogContainer.innerHTML = postsHTML;
+  } catch (error) {
+    console.error("Error loading blog previews:", error);
+    blogContainer.innerHTML =
+      "<p>Error loading blog previews: " + error.message + "</p>";
+  }
+}
+
+// Load blog previews when the page loads
+document.addEventListener("DOMContentLoaded", loadBlogPreviews);

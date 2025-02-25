@@ -17,6 +17,22 @@
       const theme = savedTheme || (prefersDark ? "dark" : "light");
       document.documentElement.setAttribute("data-theme", theme);
     </script>
+    <style>
+      .nav {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        z-index: 1000;
+        background-color: var(--bg-color, #ffffff);
+      }
+
+      main {
+        padding-top: 150px;
+        position: relative;
+        z-index: 1;
+      }
+    </style>
   </head>
   <body>
     <button class="theme-toggle" aria-label="Toggle theme">
@@ -63,8 +79,8 @@
       </div>
     </nav>
 
-    <main style="padding-top: 80px">
-      <div id="home">
+    <main>
+      <div id="home" style="padding-top: 100px">
         <h1>Santhosh reddy Barla</h1>
 
         <!-- GitHub Stats Section -->
@@ -162,7 +178,7 @@
     <footer>
       <div class="footer-content">
         <p>
-          © 2024 All rights reserved by
+          © 2025 All rights reserved by
           <a href="mailto:santhosh_reddy_@outlook.com">Santhosh reddy Barla</a>
         </p>
         <div class="social-links">
@@ -242,6 +258,9 @@
                     .join("")}
                 </div>
               </a>
+              <a href="blog.html?post=${
+                post.id
+              }" class="read-more-btn">Read More</a>
             </article>
           `
             )
@@ -256,6 +275,48 @@
 
       // Load blog previews when the page loads
       document.addEventListener("DOMContentLoaded", loadBlogPreviews);
+    </script>
+    <!-- Add Firebase SDK before your closing body tag -->
+    <script type="module">
+      // Import the functions you need from the SDKs you need
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-app.js";
+      import {
+        getFirestore,
+        collection,
+        query,
+        orderBy,
+        limit,
+        getDocs,
+        doc,
+        getDoc,
+      } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-firestore.js";
+
+      // Your web app's Firebase configuration
+      const firebaseConfig = {
+        apiKey: "AIzaSyC3n6NwkGT5EjyKacMo5KbiIFIwggsFIQ0",
+        authDomain: "dummy-api-f4510.firebaseapp.com",
+        databaseURL: "https://dummy-api-f4510-default-rtdb.firebaseio.com",
+        projectId: "dummy-api-f4510",
+        storageBucket: "dummy-api-f4510.appspot.com",
+        messagingSenderId: "423620853909",
+        appId: "1:423620853909:web:fc795bc322b7096d9e5b9c",
+      };
+
+      // Initialize Firebase
+      const app = initializeApp(firebaseConfig);
+      const db = getFirestore(app);
+
+      // Make Firebase db available globally
+      window.firebaseDb = db;
+      window.firebaseModules = {
+        collection,
+        query,
+        orderBy,
+        limit,
+        getDocs,
+        doc,
+        getDoc,
+      };
     </script>
   </body>
 </html>

@@ -28,6 +28,14 @@
 
   /* Container width */
   --container-width: 1200px;
+
+  /* New variables for enhanced blog styling */
+  --primary-color-rgb: 66, 153, 225; /* RGB value of #4299e1 */
+  --tag-bg: rgba(66, 153, 225, 0.1);
+  --tag-text: var(--primary-color);
+  --text-muted: var(--secondary-text);
+  --code-bg: rgba(0, 0, 0, 0.05);
+  --accent-color: var(--primary-color);
 }
 
 /* Dark theme - updated with better contrast colors */
@@ -44,6 +52,11 @@
   --project-text: #e2e8f0; /* Lighter text color for better readability */
   --project-description: #cbd5e0; /* Brighter description text */
   --stats-text: #e2e8f0; /* Brighter text for stats */
+  --primary-color-rgb: 99, 179, 237; /* RGB value of #63b3ed */
+  --tag-bg: rgba(99, 179, 237, 0.1);
+  --tag-text: var(--primary-color);
+  --text-muted: var(--secondary-text);
+  --code-bg: rgba(255, 255, 255, 0.05);
 }
 
 /* Update specific dark theme overrides */
@@ -94,6 +107,29 @@
   background: #2d3748;
   border-color: rgba(255, 255, 255, 0.1);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+[data-theme="dark"] .blog-post-preview h2 {
+  color: var(--text-color);
+}
+
+[data-theme="dark"] .blog-post-preview time {
+  color: #a0aec0;
+}
+
+[data-theme="dark"] .blog-post-preview p {
+  color: var(--secondary-text);
+}
+
+[data-theme="dark"] .read-more-btn {
+  background-color: var(--primary-color);
+  color: #1a202c;
+  border-color: var(--primary-color);
+}
+
+[data-theme="dark"] .read-more-btn:hover {
+  background-color: var(--primary-color-dark);
+  color: #ffffff;
 }
 
 /* Update GitHub calendar colors for dark mode */
@@ -161,6 +197,7 @@ body {
   color: var(--text-color);
   background-color: var(--background-color);
   transition: background-color 0.3s ease, color 0.3s ease;
+  --container-width: 1200px; /* Restore original container width */
 }
 
 /* Navigation */
@@ -349,12 +386,16 @@ nav a:hover {
 /* Blog Styles */
 .blog-grid {
   display: grid;
-  gap: 2rem;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  margin: 2rem 0;
+  grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+  gap: 1.2rem;
+  padding: 1rem 0;
+  width: auto;
+  max-width: var(--container-width);
+  margin: 0 auto;
 }
 
 .blog-post {
+  min-width: 340px;
   background: var(--card-bg);
   border-radius: 12px;
   padding: 1.5rem;
@@ -396,7 +437,8 @@ nav a:hover {
 
 .view-all {
   text-align: center;
-  margin: 2rem 0;
+  margin: 1rem 0;
+  width: 98%;
 }
 
 .view-all-link {
@@ -416,62 +458,161 @@ nav a:hover {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add shadow on hover */
 }
 
-/* Blog page specific styles */
+/* Blog page specific styles - align with navbar width */
 .blog-container {
-  max-width: 1200px;
-  margin: 6rem auto 2rem;
-  padding: 2rem 1rem;
+  width: calc(100% - 2rem); /* Match navbar width calculation */
+  max-width: var(--container-width); /* Match navbar max-width */
+  margin: 2rem auto;
+  padding: 80px 1rem 0; /* Top padding to clear navbar */
 }
 
+/* Blog Post Preview Cards on Home Page */
 .blog-post-preview {
+  min-width: 340px;
+  position: relative;
+  padding: 0.8rem;
+  margin-bottom: 10px;
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
   background: var(--card-bg);
-  border-radius: 8px;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease;
 }
 
 .blog-post-preview:hover {
   transform: translateY(-4px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+}
+
+.blog-post-preview:last-child {
+  border-bottom: none;
 }
 
 .blog-post-link {
+  flex: 1;
   display: block;
-  padding: 1.5rem;
-  text-decoration: none;
-  color: inherit;
+  width: 100%;
+  margin-bottom: 5px;
+  padding: 0.2rem;
 }
 
 .blog-post-preview h2 {
-  margin: 0 0 0.5rem;
-  font-size: 1.5rem;
-  color: var(--heading-color);
+  margin: 0 0 0.3rem;
+  font-size: 1.3rem;
+  color: var(--text-color);
+  line-height: 1.2;
 }
 
 .blog-post-preview time {
   display: block;
   color: var(--text-muted);
-  font-size: 0.9rem;
-  margin-bottom: 1rem;
+  font-size: 0.85rem;
+  margin-bottom: 0.3rem;
 }
 
 .blog-post-preview p {
-  margin: 0 0 1rem;
-  color: var(--text-color);
+  margin: 0 0 0.4rem;
+  color: var(--secondary-text);
+  text-align: justify;
+  line-height: 1.3;
+  max-height: 3.9em;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
 }
 
-.tags {
+.blog-post-preview .tags {
   display: flex;
-  gap: 0.5rem;
+  gap: 0.3rem;
   flex-wrap: wrap;
-  margin-top: 1rem;
+  margin: 0.4rem 0;
 }
 
-.tag {
+.blog-post-preview .tag {
   background: var(--tag-bg);
-  color: var(--tag-color);
-  padding: 0.25rem 0.75rem;
+  color: var(--tag-text);
+  padding: 0.2rem 0.6rem;
   border-radius: 1rem;
-  font-size: 0.875rem;
+  font-size: 0.8rem;
+}
+
+/* Update the read more button styling to be smaller - more specific selector */
+.blog-post-preview .read-more-btn,
+.read-more-btn {
+  display: block !important;
+  width: fit-content !important;
+  margin: 4px auto 0 !important;
+  padding: 3px 10px !important; /* Smaller padding */
+  background-color: var(--primary-color);
+  color: white;
+  border: 1px solid var(--primary-color);
+  border-radius: 4px;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 0.75rem !important; /* Smaller font */
+  text-align: center;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Ensure hover styles match */
+.blog-post-preview .read-more-btn:hover,
+.read-more-btn:hover {
+  background-color: var(--primary-color-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* Ensure blog grid has proper spacing */
+.blog-grid {
+  display: grid;
+  gap: 1.2rem;
+  grid-template-columns: 1fr;
+  margin: 1rem auto;
+  max-width: 98%; /* Nearly full width */
+  width: 98%;
+}
+
+/* Responsive adjustments */
+@media (max-width: 992px) {
+  .blog-grid,
+  .view-all,
+  .blog-container,
+  .section-title {
+    max-width: 95%;
+    width: 95%;
+  }
+}
+
+@media (max-width: 768px) {
+  .blog-grid,
+  .view-all,
+  .blog-container,
+  .section-title {
+    max-width: 100%;
+    width: 100%;
+    padding-left: 0.25rem;
+    padding-right: 0.25rem;
+  }
+
+  .blog-grid {
+    gap: 1rem;
+    grid-template-columns: 1fr; /* Single column on mobile */
+  }
+
+  .blog-post-preview {
+    padding: 1rem;
+  }
+
+  .enhanced-blog-content,
+  .blog-post-container {
+    max-width: 100%;
+  }
+
+  #blog {
+    padding: 0.5rem 0.25rem;
+  }
 }
 
 /* MDX content styles */
@@ -501,12 +642,6 @@ nav a:hover {
   height: auto;
   border-radius: 8px;
   margin: 1.5rem 0;
-}
-
-@media (max-width: 768px) {
-  .blog-grid {
-    grid-template-columns: 1fr;
-  }
 }
 
 /* GitHub Stats Section */
@@ -644,12 +779,16 @@ nav a:hover {
 /* Projects Section */
 .projects-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 1.5rem;
+  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+  gap: 1.2rem;
   padding: 1rem 0;
+  width: auto;
+  max-width: var(--container-width);
+  margin: 0 auto;
 }
 
 .project-card {
+  min-width: 340px;
   background: var(--card-bg);
   border-radius: 12px;
   padding: 1.5rem;
@@ -874,4 +1013,544 @@ footer {
 
 [data-theme="dark"] .calendar text {
   fill: var(--stats-text) !important; /* Force calendar text color */
+}
+
+.read-more-btn {
+  display: block;
+  width: fit-content;
+  margin: 12px auto 0;
+  padding: 8px 16px;
+  background-color: var(--primary-color);
+  color: white;
+  border: 1px solid var(--primary-color);
+  border-radius: 4px;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 0.9rem;
+  text-align: center;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.read-more-btn:hover {
+  background-color: var(--primary-color-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* Make the last blog post preview not have a border */
+.blog-post-preview:last-child {
+  border-bottom: none;
+}
+
+/* Enhanced Blog Styling */
+.enhanced-blog-content {
+  max-width: 900px; /* Keep max-width for readability */
+  margin: 0 auto;
+  padding: 2rem;
+  line-height: 1.6;
+  font-size: 1.1rem;
+  padding-top: 80px; /* Ensure content clears the navbar */
+}
+
+.enhanced-blog-content h1 {
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+  line-height: 1.2;
+}
+
+.enhanced-blog-content h2 {
+  font-size: 1.8rem;
+  margin: 2rem 0 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.enhanced-blog-content h3 {
+  font-size: 1.4rem;
+  margin: 1.5rem 0 1rem;
+}
+
+.enhanced-blog-content p {
+  margin-bottom: 1.5rem;
+}
+
+.enhanced-blog-content img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  margin: 1.5rem 0;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.enhanced-blog-content blockquote {
+  border-left: 4px solid var(--accent-color);
+  padding-left: 1rem;
+  margin: 1.5rem 0;
+  font-style: italic;
+  color: var(--text-muted);
+}
+
+.enhanced-blog-content code {
+  font-family: monospace;
+  background-color: var(--code-bg);
+  padding: 0.2rem 0.4rem;
+  border-radius: 4px;
+  font-size: 0.9rem;
+}
+
+.enhanced-blog-content pre {
+  background-color: var(--code-bg);
+  padding: 1rem;
+  border-radius: 8px;
+  overflow-x: auto;
+  margin: 1.5rem 0;
+}
+
+.enhanced-blog-content pre code {
+  background-color: transparent;
+  padding: 0;
+}
+
+.enhanced-blog-content ul,
+.enhanced-blog-content ol {
+  margin: 1rem 0 1.5rem 2rem;
+}
+
+.enhanced-blog-content li {
+  margin-bottom: 0.5rem;
+}
+
+.blog-post-header {
+  margin-bottom: 2rem;
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 1rem;
+}
+
+.blog-post-meta {
+  display: flex;
+  align-items: center;
+  margin: 1rem 0;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+.blog-post-date {
+  margin-right: 1rem;
+}
+
+.blog-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 1rem 0;
+}
+
+.blog-tag {
+  background-color: var(--tag-bg);
+  color: var(--tag-text);
+  padding: 0.3rem 0.8rem;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+.blog-container {
+  padding-top: 2rem;
+  padding-bottom: 4rem;
+}
+
+/* Responsive adjustments - simplified since we're using calc() */
+@media (max-width: 768px) {
+  .blog-container,
+  .blog-post-container {
+    width: calc(100% - 1rem); /* Slightly narrower margins on mobile */
+  }
+
+  .enhanced-blog-content {
+    padding: 1rem;
+  }
+}
+
+/* Blog Post Container - Similar to About Me Block */
+.blog-post-container {
+  width: calc(100% - 2rem); /* Match navbar width */
+  max-width: var(--container-width); /* Match navbar max-width */
+  margin: 2rem auto;
+  padding-top: 2rem;
+}
+
+.blog-post-content-wrapper {
+  background: var(--card-bg);
+  border-radius: 12px;
+  padding: 2.5rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border: 1px solid var(--border-color);
+}
+
+.blog-post-content {
+  font-size: 1.1rem;
+  line-height: 1.8;
+  color: var(--text-color);
+  padding: 0.5rem;
+}
+
+.blog-post-content p {
+  margin-bottom: 1.5rem;
+  text-align: justify;
+}
+
+.blog-post-content h2 {
+  margin-top: 2.5rem;
+  margin-bottom: 1.5rem;
+  font-size: 1.8rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.blog-post-content h3 {
+  margin-top: 2rem;
+  margin-bottom: 1.2rem;
+  font-size: 1.5rem;
+}
+
+.blog-post-content ul,
+.blog-post-content ol {
+  margin: 1.5rem 0 1.5rem 2rem;
+  padding-left: 1rem;
+}
+
+.blog-post-content li {
+  margin-bottom: 0.8rem;
+}
+
+.blog-post-content img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  margin: 2rem auto;
+  display: block;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.blog-post-content blockquote {
+  margin: 2rem 0;
+  padding: 1.5rem 2rem;
+  background-color: rgba(var(--primary-color-rgb), 0.05);
+  border-left: 4px solid var(--primary-color);
+  border-radius: 0 8px 8px 0;
+  font-style: italic;
+}
+
+.blog-post-content pre {
+  margin: 1.5rem 0;
+  padding: 1.5rem;
+  background-color: var(--code-bg);
+  border-radius: 8px;
+  overflow-x: auto;
+}
+
+.blog-post-content code {
+  font-family: "Courier New", Courier, monospace;
+  font-size: 0.9rem;
+  padding: 0.2rem 0.4rem;
+  background-color: var(--code-bg);
+  border-radius: 4px;
+}
+
+.blog-post-content pre code {
+  padding: 0;
+  background-color: transparent;
+}
+
+.blog-post-header {
+  margin-bottom: 2.5rem;
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 1.5rem;
+}
+
+.blog-post-header h1 {
+  font-size: 2.4rem;
+  margin-bottom: 1rem;
+  color: var(--text-color);
+  line-height: 1.3;
+}
+
+/* Responsive adjustments */
+@media (max-width: 992px) {
+  .blog-grid,
+  .blog-container,
+  #blog .blog-grid,
+  #blog .view-all,
+  .blog-post-container {
+    width: 85%;
+  }
+}
+
+@media (max-width: 768px) {
+  .blog-grid,
+  .blog-container,
+  #blog .blog-grid,
+  #blog .view-all,
+  .blog-post-container {
+    width: 90%;
+  }
+
+  .blog-post-content-wrapper {
+    padding: 1.5rem;
+  }
+}
+
+/* Ensure the section container also respects the width */
+#blog {
+  max-width: 100%; /* Remove container max-width constraint */
+  width: 100%;
+  margin: 0 auto;
+  padding: var(--spacing-lg);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.section-title {
+  text-align: center;
+  width: 98%;
+  margin: 0 auto 0.5rem;
+}
+
+/* Target any potential parent constraints */
+main,
+.section {
+  max-width: var(--container-width);
+  width: 100%;
+  padding-left: var(--spacing-md);
+  padding-right: var(--spacing-md);
+  margin: 0 auto;
+}
+
+/* Target the main blog container */
+.blog-container {
+  max-width: 100% !important;
+  width: 100% !important;
+  padding: 0 !important;
+  margin: 2rem auto !important;
+}
+
+/* Target blog list page */
+#blog-content {
+  max-width: 100% !important;
+  width: 100% !important;
+  padding: 0 1rem !important;
+  padding-top: 80px !important; /* Force top padding to clear navbar */
+}
+
+/* Target the blog posts container */
+.blog-grid,
+.blog-posts-container,
+#blog-posts-container {
+  max-width: var(--container-width) !important;
+  width: auto !important;
+  padding: 0 !important;
+  margin: 1rem auto !important;
+}
+
+/* Target the blog post links to ensure they take full width */
+.blog-post-link,
+.blog-post-preview a {
+  max-width: 100% !important;
+  width: 100% !important;
+}
+
+/* Blog post cards */
+.blog-post,
+.blog-post-preview,
+article.blog-post-preview {
+  max-width: none !important;
+  width: auto !important;
+  margin: 0 !important;
+  padding: 1.5rem !important;
+  box-sizing: border-box !important;
+  background: var(--card-bg);
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border: 1px solid var(--border-color);
+  transition: transform 0.2s ease;
+}
+
+/* Match hover effect */
+.blog-post:hover,
+.blog-post-preview:hover,
+article.blog-post-preview:hover {
+  transform: translateY(-5px);
+}
+
+/* Blog title */
+h1:first-child,
+.blog-posts h1,
+.section-title {
+  text-align: center;
+  width: 100% !important;
+  max-width: 100% !important;
+  margin: 1rem auto !important;
+}
+
+/* Remove potential padding from parent containers */
+main,
+.section,
+#blog,
+.enhanced-blog-content {
+  max-width: 100% !important;
+  width: 100% !important;
+  padding: 0 !important;
+  margin: 0 auto !important;
+}
+
+/* Ensure proper display for blog detail page */
+.blog-post-container,
+.blog-post-content-wrapper {
+  max-width: 100% !important;
+  width: 100% !important;
+  padding: 1rem !important;
+  margin: 0 !important;
+}
+
+/* Override any media queries */
+@media (min-width: 0px) {
+  .blog-grid,
+  .blog-post-preview,
+  .blog-container,
+  .blog-post-container,
+  #blog-posts-container,
+  #blog-content,
+  main,
+  .section,
+  #blog {
+    max-width: 100% !important;
+    width: 100% !important;
+  }
+}
+
+/* Blog preview section on home page */
+#blog {
+  padding: var(--spacing-lg);
+}
+
+/* Target blog cards specifically on home page */
+#blog .blog-grid {
+  width: 80%;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+/* Ensure the blog section title matches the grid width */
+#blog .section-title {
+  text-align: center;
+  margin-bottom: 2rem;
+  width: 80%; /* Match grid width */
+  max-width: 900px; /* Match grid max-width */
+}
+
+/* Ensure view all link also matches */
+#blog .view-all {
+  width: 80%; /* Match grid width */
+  max-width: 900px; /* Match grid max-width */
+  margin: 1.5rem auto;
+  text-align: center;
+}
+
+/* Make the blog post cards on home page more compact */
+#blog .blog-post-preview {
+  padding: 1rem;
+  margin-bottom: 12px;
+}
+
+/* Adjust layout of blog previews on home page */
+#blog-posts-container {
+  width: 100%;
+}
+
+#blog-posts-container .blog-post-preview {
+  width: 100%;
+}
+
+/* Ensure responsive behavior */
+@media (max-width: 992px) {
+  #blog .blog-grid,
+  #blog .view-all,
+  #blog .section-title {
+    width: 85%;
+  }
+}
+
+@media (max-width: 768px) {
+  #blog .blog-grid,
+  #blog .view-all,
+  #blog .section-title {
+    width: 95%;
+  }
+}
+
+/* For specific blog detail page - add top padding to main */
+body .blog-container main {
+  padding-top: 80px;
+}
+
+/* Make sure navigation doesn't hide content */
+.nav {
+  z-index: 1000; /* Ensure nav stays on top */
+}
+
+/* Further adjustments for specificity */
+@media (max-width: 768px) {
+  .blog-container,
+  .enhanced-blog-content,
+  #blog-content {
+    padding-top: 70px; /* Slightly less on mobile if nav is shorter */
+  }
+}
+
+/* Blog grid should match project grid styling */
+.projects-grid,
+.blog-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+  gap: 1.2rem;
+  padding: 1rem 0;
+  width: auto;
+  max-width: var(--container-width);
+  margin: 0 auto;
+}
+
+/* Remove these overly aggressive overrides that force blog elements to 100% width */
+/* Target the blog posts container */
+.blog-grid,
+.blog-posts-container,
+#blog-posts-container {
+  max-width: var(--container-width) !important;
+  width: auto !important;
+  padding: 0 !important;
+  margin: 1rem auto !important;
+}
+
+/* Blog post cards - make them match project cards */
+.blog-post,
+.blog-post-preview,
+article.blog-post-preview {
+  max-width: none !important;
+  width: auto !important;
+  margin: 0 !important;
+  padding: 1.5rem !important;
+  box-sizing: border-box !important;
+  background: var(--card-bg);
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border: 1px solid var(--border-color);
+  transition: transform 0.2s ease;
+}
+
+/* Match hover effect */
+.blog-post:hover,
+.blog-post-preview:hover,
+article.blog-post-preview:hover {
+  transform: translateY(-5px);
 }
